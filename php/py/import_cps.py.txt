@@ -1,0 +1,113 @@
+import requests
+from bs4 import BeautifulSoup
+from googletrans import Translator
+import os
+from datetime import datetime
+import time
+
+# ============================
+# INSTÄLLNINGAR
+# ============================
+BASE_URL = "https://www.cpsglobal.org/articles"
+SAVE_DIR = "C:/xampp/htdocs/maulana-pashto-site/articles/"
+LOG_FILE = os.path.join(SAVE_DIR, "import_log.txt")
+MAX_ARTICLES = 2   # ⚡ just nu bara 2 artiklar för test
+
+translator = Translator()
+
+# ============================
+# HJÄLPFUNKTIONER
+# ============================
+def load_log():
+    if not os.path.exists(LOG_FILE):
+        return set()
+    with open(LOG_FILE, "r", encoding="utf-8") as f:
+        return set(line.strip().split("\t")[0] for line in f if line.strip())
+
+def update_log(url):
+    with open(LOG_FILE, "a", encoding="utf-8") as f:
+        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        f.write(f"{url}\t{now}\n")
+
+def fetch_soup(url):
+    try:
+        r = requests.get(url, timeout=15)
+        r.raise_for_status()
+        return BeautifulSoup(r.text, "html.parser")
+    except Exception as e:
+        print(f"❌ Fel vid hämtning: {e}")
+        return None
+
+def get_all_article_links():
+    links = []
+    url = BASE_URL
+    soup = fetch_soup(url)
+    if not soup:
+        return links
+    page_links = [
+        a["href"] for a in soup.select("div.view-content a") if a.get("href", "").startswith("/articles/")
+    ]
+    for pl in page_links:
+        links.append("https://www.cpsglobal.org" + pl)
+    return links
+
+def extract_article(url):
+    soup = fetch_soup(url)
+    if not soup:
+        return None, None
+    title = soup.find("h1").get_text(strip=True)
+    paragraphs = [p.get_text(" ", strip=True) for p in soup.find_all("p") if p.get_text(strip=True)]
+    return title, paragraphs
+
+def save_article(title, paragraphs, idx):
+    # översätt titel och text till Pashto
+    try:
+        ps_title = translator.translate(title, src="en", dest="ps").text
+    except:
+        ps_title = title
+
+    ps_paragraphs = []
+    for p in paragraphs:
+        try:
+            ps_paragraphs.append(translator.translate(p, src="en", dest="ps").text)
+        except:
+            ps_paragraphs.append(p)
+        time.sleep(1)
+
+    # skapa enkel HTML-fil
+    safe_title = "".join(c if c.isalnum() else "_" for c in ps_title)[:50]
+    filename = os.path.join(SAVE_DIR, f"article_{idx:03d}_{safe_title}.html")
+
+    with open(filename, "w", encoding="utf-8") as f:
+        f.write("<!DOCTYPE html><html lang='ps'><head>")
+        f.write(f"<meta charset='utf-8'><title>{ps_title}</title></head><body>")
+        f.write(f"<h1>{ps_title}</h1>")
+        for para in ps_paragraphs:
+            f.write(f"<p>{para}</p>")
+        f.write("</body></html>")
+
+    return filename
+
+# ============================
+# HUVUDPROGRAM
+# ============================
+if __name__ == "__main__":
+    os.makedirs(SAVE_DIR, exist_ok=True)
+
+    all_links = get_all_article_links()
+    done = load_log()
+    kvar = [u for u in all_links if u not in done]
+
+    print(f"🌐 Totalt hittade: {len(all_links)} artiklar")
+    print(f"✅ Redan importerade: {len(done)}")
+    print(f"🆕 Nya att översätta: {len(kvar)}")
+
+    for i, url in enumerate(kvar[:MAX_ARTICLES], start=1):
+        title, paras = extract_article(url)
+        if not paras:
+            continue
+        filename = save_article(title, paras, i)
+        update_log(url)
+        print(f"📝 Sparad: {filename}")
+
+    print("🚀 Klar!")
