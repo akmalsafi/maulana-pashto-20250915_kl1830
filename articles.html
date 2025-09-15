@@ -1,0 +1,38 @@
+<!doctype html><html lang="ps" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>د سولې او روحانیت کتابتون – د مولانا وحیدالدین خان لیکنې</title>
+<meta name="description" content="د سولې، روحانیت او دین په اړه د مولانا وحیدالدین خان پښتو لیکنې.">
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"></head><body>
+<nav class="nav">
+  <a class="brand" href="index.html"><img src="assets/logo.svg" alt="لوګو" width="36" height="36" style="border-radius:10px"><span class="title">د سولې او روحانیت کتابتون</span></a>
+  <div class="menu">
+    <a href="index.html" class="" title="Home">کور</a>
+    <a href="weekly.html" class="" title="Veckans läsning">د اوونۍ لوستل</a>
+    <a href="daily.html" class="" title="Dagens läsning">د نن ورځې لوستل</a>
+    <a href="articles.html" class="active" title="Articles">مقالې</a>
+    <a href="admin.html" title="Admin">اداره</a>
+  </div>
+</nav><header class="hero container">
+  <img src="https://source.unsplash.com/1200x1200/?nature,light,tranquil" alt="" loading="lazy">
+  <div><span class="badge">ځانګړې برخه</span><h1>مقالې</h1><p>ټولې پښتو لیکنې – د موضوعاتو له مخې.</p></div>
+</header>
+<main class="container">
+  <div class="grid" id="article-grid">
+    <div class="card"><img class="article-cover" src="https://source.unsplash.com/1600x900/?dove,peace" alt=""><h3 style="margin-top:.25rem"><a href="articles/sulh-ruhani.html" style="text-decoration:none;color:inherit">سوله – د الهي نظام بنسټ</a></h3><p class="badge">2025-08-10</p><p>په الهي پلان کې سوله د انسان د ودې او پرمختګ يوازينۍ ريښتينې فضا ده.</p><a class="btn" href="articles/sulh-ruhani.html">لوستل</a></div><div class="card"><img class="article-cover" src="https://source.unsplash.com/1600x900/?people,talking,smile" alt=""><h3 style="margin-top:.25rem"><a href="articles/interfaith-dialogue.html" style="text-decoration:none;color:inherit">د بين‌الا‌دياني مکالمې ارزښت</a></h3><p class="badge">2025-08-11</p><p>کله چې د اديانو پیروان له یو بل سره په ښکلي طرز خبرې کوي، د سولې فضا ټینګېږي.</p><a class="btn" href="articles/interfaith-dialogue.html">لوستل</a></div><div class="card"><img class="article-cover" src="https://source.unsplash.com/1600x900/?mosque,sunrise,peaceful" alt=""><h3 style="margin-top:.25rem"><a href="articles/islam-and-peace.html" style="text-decoration:none;color:inherit">اسلام او سوله</a></h3><p class="badge">2025-08-12</p><p>د اسلام پیغام د سولې له لارې خپرېږي، ځکه حکمت یوازې په ارامه فضا کې غوړېږي.</p><a class="btn" href="articles/islam-and-peace.html">لوستل</a></div><div class="card"><img class="article-cover" src="https://source.unsplash.com/1600x900/?forest,light,sunbeams" alt=""><h3 style="margin-top:.25rem"><a href="articles/ideology-of-peace.html" style="text-decoration:none;color:inherit">د سولې مفکوره</a></h3><p class="badge">2025-08-13</p><p>په اسلامي لید کې سوله د عدالت لپاره لومړنی شرط دی — سوله مخکې، بیا اصلاح.</p><a class="btn" href="articles/ideology-of-peace.html">لوستل</a></div><div class="card"><img class="article-cover" src="https://source.unsplash.com/1600x900/?birds,ocean,calm" alt=""><h3 style="margin-top:.25rem"><a href="articles/peace-and-dialogue.html" style="text-decoration:none;color:inherit">سوله او مکالمه</a></h3><p class="badge">2025-08-14</p><p>مکالمه د شخړې بدیل دی: اورېدنه، پوښتنه او درناوی د تفاهم دروازې پرانیزي.</p><a class="btn" href="articles/peace-and-dialogue.html">لوستل</a></div>
+  </div>
+</main>
+<script src="posts.js"></script>
+<script>
+const container = document.getElementById('article-grid');
+const saved = JSON.parse(localStorage.getItem('mwk_posts')||'[]');
+const baseSlugs = new Set((window.__BASE_POSTS__||[]).map(p=>p.slug));
+(saved||[]).forEach(p=>{ if(baseSlugs.has(p.slug)) return;
+  const d=document.createElement('div'); d.className='card';
+  d.innerHTML = `<img class="article-cover" src="${p.image||''}" alt=""><h3 style="margin-top:.25rem"><a href="articles/${p.slug}.html" style="text-decoration:none;color:inherit">${p.title}</a></h3><p class="badge">${p.date||''}</p><p>${p.excerpt||''}</p><a class="btn" href="articles/${p.slug}.html">لوستل</a>`;
+  container.prepend(d);
+});
+</script>
+<footer>© 2025 – لیکنې په عامه ملکیت کې. انځورونه له Unsplash/Pexels څخه د دوی اجازې لاندې بارېږي.</footer></body></html>

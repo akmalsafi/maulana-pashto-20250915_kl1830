@@ -1,0 +1,32 @@
+<?php
+$db = new SQLite3(__DIR__ . '/data.db');
+$id = $_GET['id'] ?? 0;
+$stmt = $db->prepare("SELECT * FROM articles WHERE id=:id");
+$stmt->bindValue(':id',$id,SQLITE3_INTEGER);
+$res = $stmt->execute();
+$article = $res->fetchArray(SQLITE3_ASSOC);
+
+if (!$article) {
+    echo "❌ Artikel hittades inte.";
+    exit;
+}
+?>
+<!doctype html>
+<html lang="ps" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <title><?php echo htmlspecialchars($article['title']); ?></title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <article class="container">
+    <h1><?php echo htmlspecialchars($article['title']); ?></h1>
+    <p class="badge"><?php echo htmlspecialchars($article['date']); ?> · <?php echo htmlspecialchars($article['category']); ?></p>
+    <?php if ($article['image']): ?>
+      <img src="<?php echo htmlspecialchars($article['image']); ?>" alt="" style="max-width:100%;border-radius:10px">
+    <?php endif; ?>
+    <p><?php echo nl2br(htmlspecialchars($article['content'])); ?></p>
+    <a href="index.php">⬅ Tillbaka</a>
+  </article>
+</body>
+</html>

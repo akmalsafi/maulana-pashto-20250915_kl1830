@@ -1,0 +1,53 @@
+<!doctype html><html lang="ps" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>د سولې او روحانیت کتابتون – د مولانا وحیدالدین خان لیکنې</title>
+<meta name="description" content="د سولې، روحانیت او دین په اړه د مولانا وحیدالدین خان پښتو لیکنې.">
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"></head><body>
+<nav class="nav">
+  <a class="brand" href="index.html"><img src="assets/logo.svg" alt="لوګو" width="36" height="36" style="border-radius:10px"><span class="title">د سولې او روحانیت کتابتون</span></a>
+  <div class="menu">
+    <a href="index.html" class="" title="Home">کور</a>
+    <a href="weekly.html" class="active" title="Veckans läsning">د اوونۍ لوستل</a>
+    <a href="daily.html" class="" title="Dagens läsning">د نن ورځې لوستل</a>
+    <a href="articles.html" class="" title="Articles">مقالې</a>
+    <a href="admin.html" title="Admin">اداره</a>
+  </div>
+</nav><header class="hero container">
+  <img src="https://source.unsplash.com/1200x1200/?birds,sunset,calm" alt="" loading="lazy">
+  <div><span class="badge">ځانګړې برخه</span><h1>د اوونۍ لوستل</h1><p>هره اوونۍ يوه غوره لیکنه – د آرشيف سره.</p></div>
+</header>
+<main class="container">
+  <section class="card">
+    <span class="badge">اوسنۍ اوونۍ</span>
+    <h3 id="current-title">—</h3>
+    <p id="current-meta" class="badge"></p>
+    <a id="current-link" class="btn" href="#">لوستل</a>
+  </section>
+  <hr/>
+  <section>
+    <h2>د اوونيو آرشيف</h2>
+    <div id="archive" class="grid"></div>
+  </section>
+</main>
+<script src="posts.js"></script>
+<script>
+const saved = JSON.parse(localStorage.getItem('mwk_posts')||'[]');
+const posts = [...saved, ...(window.__BASE_POSTS__||[])];
+const list = posts.filter(p=>p.category==='Veckans läsning').sort((a,b)=> (b.date||'').localeCompare(a.date||''));
+const current = list[0] || posts[0];
+if(current){ 
+  document.getElementById('current-title').textContent=current.title;
+  document.getElementById('current-meta').textContent=(current.date||'')+' · '+(current.tags||'');
+  document.getElementById('current-link').href='articles/'+current.slug+'.html';
+}
+const arch = document.getElementById('archive');
+(list.slice(1)).forEach(p=>{
+  const d=document.createElement('div'); d.className='card';
+  d.innerHTML=`<h3 style="margin-top:0">${p.title}</h3><p class="badge">${p.date||''}</p><p>${p.excerpt||''}</p><a class="btn" href="articles/${p.slug}.html">لوستل</a>`;
+  arch.appendChild(d);
+});
+</script>
+<footer>© 2025 – لیکنې په عامه ملکیت کې. انځورونه له Unsplash/Pexels څخه د دوی اجازې لاندې بارېږي.</footer></body></html>

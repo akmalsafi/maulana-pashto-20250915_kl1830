@@ -1,0 +1,95 @@
+<?php
+$db = new SQLite3(__DIR__ . '/data.db');
+
+?>
+
+
+<!doctype html><html lang="ps" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>د سولې او روحانیت کتابتون – د مولانا وحیدالدین خان لیکنې</title>
+<meta name="description" content="د سولې، روحانیت او دین په اړه د مولانا وحیدالدین خان پښتو لیکنې.">
+<link rel="icon" type="image/svg+xml" href="images//icons/khan1.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"></head><body>
+<nav class="nav">
+  <a class="brand" href="index.html"><img src="assets/logo.svg" alt="لوګو" width="36" height="36" style="border-radius:10px"><span class="title">د سولې او روحانیت کتابتون</span></a>
+  <div class="menu">
+    <a href="index.html" class="active" title="Home">کور</a>
+    <a href="weekly.html" class="" title="Veckans läsning">د اوونۍ لوستل</a>
+    <a href="daily.html" class="" title="Dagens läsning">د نن ورځې لوستل</a>
+    <a href="articles.html" class="" title="Articles">مقالې</a>
+    <a href="admin.html" title="Admin">اداره</a>
+  </div>
+</nav><header class="hero container">
+  <img src="images/articles/giraf.jpg" alt="" loading="lazy">
+  <div><span class="badge">ځانګړې برخه</span><h1>د مولانا وحیدالدین خان پښتو لیکنې</h1><p>سوله، روحانیت او دین — يو ارام کتابتون.</p></div>
+</header>
+<main class="container">
+  <section class="card">
+    <span class="badge">د اوونۍ لوستل</span>
+    <h2 id="weekly-title">—</h2>
+    <p id="weekly-meta" class="badge"></p>
+    <p id="weekly-excerpt"></p>
+    <a id="weekly-link" class="btn" href="#">اکنون ولولئ</a>
+  </section>
+  <p class="notice">انځورونه د Unsplash/Pexels څخه پر وخت بارېږي.</p>
+  <hr/>
+  
+
+<section>
+  <h2 style="margin:0 0 .5rem">وروستۍ مقالې</h2>
+  <div class="grid" id="home-cards">
+    <!-- Statiska artiklar -->
+    <div class="card">
+      <img src="https://source.unsplash.com/1600x900/?dove,peace" alt="" class="article-cover" loading="lazy">
+      <h3 style="margin-top:.25rem"><a href="articles/sulh-ruhani.html" style="text-decoration:none;color:inherit">سوله – د الهي نظام بنسټ</a></h3>
+      <p class="badge">2025-08-10</p>
+      <p>په الهي پلان کې سوله د انسان د ودې او پرمختګ يوازينۍ ريښتينې فضا ده.</p>
+      <a class="btn" href="articles/sulh-ruhani.html">لوستل</a>
+    </div>
+    <!-- osv... -->
+
+    <!-- Dynamiska artiklar från databasen -->
+    <?php
+    $results = $db->query("SELECT * FROM articles ORDER BY date DESC LIMIT 10");
+    while ($row = $results->fetchArray(SQLITE3_ASSOC)) {
+        echo '<div class="card">';
+        echo '<img src="'.htmlspecialchars($row['image']).'" alt="" class="article-cover" loading="lazy">';
+        echo '<h3 style="margin-top:.25rem"><a href="article.php?id='.$row['id'].'" style="text-decoration:none;color:inherit">'.htmlspecialchars($row['title']).'</a></h3>';
+        echo '<p class="badge">'.htmlspecialchars($row['date']).'</p>';
+        echo '<p>'.htmlspecialchars($row['excerpt']).'</p>';
+        echo '<a class="btn" href="article.php?id='.$row['id'].'">لوستل</a>';
+        echo '</div>';
+    }
+    ?>
+  </div>
+</section>
+
+
+
+</main>
+
+
+<script src="posts.js"></script>
+<script>
+  const base = (window.__BASE_POSTS__||[]);
+  const saved = JSON.parse(localStorage.getItem('mwk_posts')||'[]');
+  const posts = [...saved, ...base];
+  const weeklies = posts.filter(p => p.category==='Veckans läsning');
+  function byDate(a,b){return (b.date||'').localeCompare(a.date||'');}
+  let pick = (weeklies.sort(byDate)[0]) || posts[0] || null;
+  document.getElementById('weekly-title').textContent = pick ? pick.title : '—';
+  document.getElementById('weekly-meta').textContent = pick ? ((pick.date||'') + (pick.tags? ' · '+pick.tags : '')) : '';
+  document.getElementById('weekly-excerpt').textContent = pick ? (pick.excerpt||'') : '';
+  document.getElementById('weekly-link').href = pick ? ('articles/'+(pick.slug||'')+'.html') : '#';
+
+  const seen = new Set((base||[]).map(p=>p.slug));
+  const container = document.getElementById('home-cards');
+  (saved||[]).forEach(p => { if(seen.has(p.slug)) return;
+    const d=document.createElement('div'); d.className='card';
+    d.innerHTML = `<img class="article-cover" src="${p.image||''}" alt=""><h3 style="margin-top:.25rem"><a href="articles/${p.slug}.html" style="text-decoration:none;color:inherit">${p.title}</a></h3><p class="badge">${p.date||''}</p><p>${p.excerpt||''}</p><a class="btn" href="articles/${p.slug}.html">لوستل</a>`;
+    container.prepend(d);
+  });
+</script>
+<footer>© 2025 – لیکنې په عامه ملکیت کې. انځورونه له Unsplash/Pexels څخه د دوی اجازې لاندې بارېږي.</footer></body></html>

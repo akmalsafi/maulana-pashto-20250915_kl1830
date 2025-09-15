@@ -1,0 +1,111 @@
+<!doctype html><html lang="ps" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>د سولې او روحانیت کتابتون – د مولانا وحیدالدین خان لیکنې</title>
+<meta name="description" content="د سولې، روحانیت او دین په اړه د مولانا وحیدالدین خان پښتو لیکنې.">
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"></head><body>
+<nav class="nav">
+  <a class="brand" href="index.html"><img src="assets/logo.svg" alt="لوګو" width="36" height="36" style="border-radius:10px"><span class="title">د سولې او روحانیت کتابتون</span></a>
+  <div class="menu">
+    <a href="index.html" class="" title="Home">کور</a>
+    <a href="weekly.html" class="" title="Veckans läsning">د اوونۍ لوستل</a>
+    <a href="daily.html" class="" title="Dagens läsning">د نن ورځې لوستل</a>
+    <a href="articles.html" class="" title="Articles">مقالې</a>
+    <a href="admin.html" title="Admin">اداره</a>
+  </div>
+</nav><header class="hero container">
+  <img src="https://source.unsplash.com/1200x1200/?nature,light,tranquil" alt="" loading="lazy">
+  <div><span class="badge">ځانګړې برخه</span><h1>اداري پورټل</h1><p>نوې لیکنې، آيتونه او الهام اضافه کړئ.</p></div>
+</header>
+<main class="container">
+  <div class="card">
+    <h3>ننوتل</h3>
+    <p class="notice">یوازې ساده محلي ساتنه (password) — د عامه سایټ لپاره خوندي نه ده.</p>
+    <input id="pw" type="password" placeholder="پټنوم" style="width:100%;padding:.6rem;border-radius:.6rem;border:1px solid var(--border)">
+    <p><a href="#" class="btn" onclick="login()">ننوتل</a></p>
+  </div>
+
+  <div id="panel" style="display:none">
+    <div class="card">
+      <h3>نوې مقاله</h3>
+      <label>سرلیک</label>
+      <input id="title" style="width:100%;padding:.6rem;border:1px solid var(--border);border-radius:.6rem">
+      <label>لنډیز</label>
+      <textarea id="excerpt" rows="3" style="width:100%;padding:.6rem;border:1px solid var(--border);border-radius:.6rem"></textarea>
+      <label>کټګوري</label>
+      <select id="category" style="width:100%;padding:.6rem;border:1px solid var(--border);border-radius:.6rem">
+        <option>Veckans läsning</option>
+        <option>Dagens läsning</option>
+        <option>Dagens vers</option>
+        <option>Inspiration</option>
+        <option>Tematisk läsning</option>
+        <option>Articles</option>
+      </select>
+      <label>نېټه (YYYY-MM-DD)</label>
+      <input id="date" placeholder="2025-08-15" style="width:100%;padding:.6rem;border:1px solid var(--border);border-radius:.6rem">
+      <label>ټاګونه</label>
+      <input id="tags" placeholder="سوله, حکمت" style="width:100%;padding:.6rem;border:1px solid var(--border);border-radius:.6rem">
+      <label>انځور URL (Unsplash/Pexels)</label>
+      <input id="image" placeholder="https://source.unsplash.com/1600x900/?birds,peace" style="width:100%;padding:.6rem;border:1px solid var(--border);border-radius:.6rem">
+      <label>محتوا (HTML)</label>
+      <textarea id="content" rows="8" style="width:100%;padding:.6rem;border:1px solid var(--border);border-radius:.6rem"></textarea>
+      <p><a href="#" class="btn" onclick="savePost()">خوندی کول</a></p>
+    </div>
+
+    <div class="card">
+      <h3>د نن ورځې آيت/بيت</h3>
+      <textarea id="verse" rows="3" style="width:100%;padding:.6rem;border:1px solid var(--border);border-radius:.6rem" placeholder="يو الهام‌بښونکی آيت يا بيت"></textarea>
+      <p><a href="#" class="btn" onclick="saveVerse()">ساتل</a></p>
+    </div>
+
+    <div class="card">
+      <h3>زېرمه شوې مقالې</h3>
+      <div id="list"></div>
+    </div>
+  </div>
+</main>
+<script>
+const PASS = (localStorage.getItem('mwk_pass') || 'kh@np@sho');
+function login(){
+  const p = document.getElementById('pw').value;
+  if(p===PASS){ document.getElementById('panel').style.display='block'; } else { alert('ناسم پټنوم'); }
+}
+function slugify(str){ return (str||'').trim().toLowerCase().replace(/\s+/g,'-').replace(/[^\u0600-\u06FFa-z0-9-]/g,''); }
+function savePost(){
+  const post = {
+    title: document.getElementById('title').value,
+    excerpt: document.getElementById('excerpt').value,
+    category: document.getElementById('category').value,
+    date: document.getElementById('date').value,
+    tags: document.getElementById('tags').value,
+    image: document.getElementById('image').value || 'https://source.unsplash.com/1600x900/?peace,light',
+    content: document.getElementById('content').value,
+  };
+  post.slug = slugify(post.title) || ('post-'+Date.now());
+  const posts = JSON.parse(localStorage.getItem('mwk_posts')||'[]');
+  const idx = posts.findIndex(p=>p.slug===post.slug);
+  if(idx>=0) posts[idx]=post; else posts.unshift(post);
+  localStorage.setItem('mwk_posts', JSON.stringify(posts));
+  const a = document.createElement('a'); a.href = 'articles/'+post.slug+'.html'; a.textContent='وګورئ '+post.title;
+  document.getElementById('list').prepend(a);
+  alert('وساتل شو.');
+}
+function saveVerse(){
+  const verses = JSON.parse(localStorage.getItem('mwk_verses')||'[]');
+  verses.unshift({text: document.getElementById('verse').value, date: new Date().toISOString().slice(0,10)});
+  localStorage.setItem('mwk_verses', JSON.stringify(verses));
+  alert('آيت/بيت وساتل شو.');
+}
+(function renderList(){
+  const posts = JSON.parse(localStorage.getItem('mwk_posts')||'[]');
+  const box = document.getElementById('list');
+  posts.forEach(p=>{
+    const d=document.createElement('div'); d.style.margin='0 0 .5rem';
+    d.innerHTML = `<span class="badge">${p.category||''}</span> <a href="articles/${p.slug}.html">${p.title}</a>`;
+    box.appendChild(d);
+  });
+})();
+</script>
+<footer>© 2025 – لیکنې په عامه ملکیت کې. انځورونه له Unsplash/Pexels څخه د دوی اجازې لاندې بارېږي.</footer></body></html>

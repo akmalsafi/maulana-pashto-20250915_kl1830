@@ -1,0 +1,43 @@
+<!doctype html><html lang="ps" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>د سولې او روحانیت کتابتون – د مولانا وحیدالدین خان لیکنې</title>
+<meta name="description" content="د سولې، روحانیت او دین په اړه د مولانا وحیدالدین خان پښتو لیکنې.">
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"></head><body>
+<nav class="nav">
+  <a class="brand" href="index.html"><img src="assets/logo.svg" alt="لوګو" width="36" height="36" style="border-radius:10px"><span class="title">د سولې او روحانیت کتابتون</span></a>
+  <div class="menu">
+    <a href="index.html" class="" title="Home">کور</a>
+    <a href="weekly.html" class="" title="Veckans läsning">د اوونۍ لوستل</a>
+    <a href="daily.html" class="active" title="Dagens läsning">د نن ورځې لوستل</a>
+    <a href="articles.html" class="" title="Articles">مقالې</a>
+    <a href="admin.html" title="Admin">اداره</a>
+  </div>
+</nav><header class="hero container">
+  <img src="https://source.unsplash.com/1200x1200/?forest,sunrays,morning" alt="" loading="lazy">
+  <div><span class="badge">ځانګړې برخه</span><h1>د نن ورځې لوستل</h1><p>اتفاقي الهام – هره ورځ څو کرښې.</p></div>
+</header>
+<main class="container">
+  <div class="card">
+    <h3>د نن ورځې لوستل</h3>
+    <blockquote id="daily-reading">—</blockquote>
+    <p><a class="btn" id="daily-reading-link" href="#">بشپړ متن</a></p>
+  </div>
+  <div class="card">
+    <h3>د نن ورځې آيت / بيت</h3>
+    <blockquote id="daily-verse">—</blockquote>
+  </div>
+</main>
+<script src="posts.js"></script>
+<script>
+const saved = JSON.parse(localStorage.getItem('mwk_posts')||'[]');
+const posts = [...saved, ...(window.__BASE_POSTS__||[])];
+function pickLatest(cat){return posts.filter(p=>p.category===cat).sort((a,b)=>(b.date||'').localeCompare(a.date||''))[0];}
+const dr = pickLatest('Dagens läsning') || posts[0];
+if(dr){ document.getElementById('daily-reading').textContent = dr.excerpt || dr.title; document.getElementById('daily-reading-link').href = 'articles/'+dr.slug+'.html';}
+const verse = (JSON.parse(localStorage.getItem('mwk_verses')||'[]').sort((a,b)=> (b.date||'').localeCompare(a.date||''))[0]) || {text:"«سوله د زړه سکون دی.»"};
+document.getElementById('daily-verse').textContent = verse.text;
+</script>
+<footer>© 2025 – لیکنې په عامه ملکیت کې. انځورونه له Unsplash/Pexels څخه د دوی اجازې لاندې بارېږي.</footer></body></html>

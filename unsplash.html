@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Slumpmässig Bild från Unsplash</title>
+    <style>
+        /* Samma CSS som i förra exemplet */
+        body { font-family: sans-serif; text-align: center; }
+        img { max-width: 100%; height: 300; border-radius: 8px; }
+        #unsplash-container { margin: 20px; }
+        .attribution { font-size: 0.8em; color: #555; }
+    </style>
+</head>
+<body>
+
+    <h1>Dagens Naturbild</h1>
+
+    <div id="unsplash-container">
+        <p>Laddar bild...</p>
+    </div>
+
+<script>
+    // Funktion för att hämta och visa bilden
+    async function getRandomImage() {
+        const accessKey = 'XfEuQS4hVf0ddoryv5uaMnzNC7WLmdyedl5UsHj2C0w'; // VIKTIGT: Byt ut denna!
+
+        // 1. Skapa en lista med alla dina önskade sökord
+        const keywords = ['religion', 'nature', 'birds', 'ocean'];
+
+        // 2. Slå ihop listan till en enda sträng, separerad med kommatecken
+        // Resultat: "religion,nature,birds,ocean"
+        const query = keywords.join(',');
+
+        const apiUrl = `https://api.unsplash.com/photos/random?query=${query}&client_id=${accessKey}`;
+
+        try {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+
+            // Hitta elementet där bilden ska visas
+            const container = document.getElementById('unsplash-container');
+            
+            // Skapa HTML-innehållet med bilden och erkännande
+            container.innerHTML = `
+                <img src="${data.urls.regular}" alt="${data.alt_description || 'Slumpmässig bild'}">
+                <p class="attribution">
+                    Foto av <a href="${data.user.links.html}" target="_blank">${data.user.name}</a> 
+                    på <a href="https://unsplash.com" target="_blank">Unsplash</a>
+                </p>
+            `;
+        } catch (error) {
+            console.error('Kunde inte hämta bild från Unsplash:', error);
+            const container = document.getElementById('unsplash-container');
+            container.innerHTML = '<p>Kunde tyvärr inte ladda bilden. Försök igen senare.</p>';
+        }
+    }
+
+    // Kör funktionen när sidan laddas
+    getRandomImage();
+</script>
+
+</body>
+</html>

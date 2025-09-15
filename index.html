@@ -1,0 +1,90 @@
+<!doctype html><html lang="ps" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>د سولې او روحانیت کتابتون – د مولانا وحیدالدین خان لیکنې</title>
+<meta name="description" content="د سولې، روحانیت او دین په اړه د مولانا وحیدالدین خان پښتو لیکنې.">
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"></head><body>
+<nav class="nav">
+  <a class="brand" href="index.html"><img src="assets/logo.svg" alt="لوګو" width="36" height="36" style="border-radius:10px"><span class="title">د سولې او روحانیت کتابتون</span></a>
+  <div class="menu">
+    <a href="index.html" class="active" title="Home">کور</a>
+    <a href="weekly.html" class="" title="Veckans läsning">د اوونۍ لوستل</a>
+    <a href="daily.html" class="" title="Dagens läsning">د نن ورځې لوستل</a>
+    <a href="articles.html" class="" title="Articles">مقالې</a>
+    <a href="admin.html" title="Admin">اداره</a>
+  </div>
+</nav><header class="hero container">
+  <img src="https://source.unsplash.com/1200x1200/?people,joy,peaceful" alt="" loading="lazy">
+  <div><span class="badge">ځانګړې برخه</span><h1>د مولانا وحیدالدین خان پښتو لیکنې</h1><p>سوله، روحانیت او دین — يو ارام کتابتون.</p></div>
+</header>
+<main class="container">
+  <section class="card">
+    <span class="badge">د اوونۍ لوستل</span>
+    <h2 id="weekly-title">—</h2>
+    <p id="weekly-meta" class="badge"></p>
+    <p id="weekly-excerpt"></p>
+    <a id="weekly-link" class="btn" href="#">اکنون ولولئ</a>
+  </section>
+  <p class="notice">انځورونه د Unsplash/Pexels څخه پر وخت بارېږي.</p>
+  <hr/>
+  <section>
+    <h2 style="margin:0 0 .5rem">وروستۍ مقالې</h2>
+    <div class="grid" id="home-cards">
+      <div class="card">
+  <img src="https://source.unsplash.com/1600x900/?dove,peace" alt="" class="article-cover" loading="lazy">
+  <h3 style="margin-top:.25rem"><a href="articles/sulh-ruhani.html" style="text-decoration:none;color:inherit">سوله – د الهي نظام بنسټ</a></h3>
+  <p class="badge">2025-08-10</p>
+  <p>په الهي پلان کې سوله د انسان د ودې او پرمختګ يوازينۍ ريښتينې فضا ده.</p>
+  <a class="btn" href="articles/sulh-ruhani.html">لوستل</a>
+</div><div class="card">
+  <img src="https://source.unsplash.com/1600x900/?people,talking,smile" alt="" class="article-cover" loading="lazy">
+  <h3 style="margin-top:.25rem"><a href="articles/interfaith-dialogue.html" style="text-decoration:none;color:inherit">د بين‌الا‌دياني مکالمې ارزښت</a></h3>
+  <p class="badge">2025-08-11</p>
+  <p>کله چې د اديانو پیروان له یو بل سره په ښکلي طرز خبرې کوي، د سولې فضا ټینګېږي.</p>
+  <a class="btn" href="articles/interfaith-dialogue.html">لوستل</a>
+</div><div class="card">
+  <img src="https://source.unsplash.com/1600x900/?mosque,sunrise,peaceful" alt="" class="article-cover" loading="lazy">
+  <h3 style="margin-top:.25rem"><a href="articles/islam-and-peace.html" style="text-decoration:none;color:inherit">اسلام او سوله</a></h3>
+  <p class="badge">2025-08-12</p>
+  <p>د اسلام پیغام د سولې له لارې خپرېږي، ځکه حکمت یوازې په ارامه فضا کې غوړېږي.</p>
+  <a class="btn" href="articles/islam-and-peace.html">لوستل</a>
+</div><div class="card">
+  <img src="https://source.unsplash.com/1600x900/?forest,light,sunbeams" alt="" class="article-cover" loading="lazy">
+  <h3 style="margin-top:.25rem"><a href="articles/ideology-of-peace.html" style="text-decoration:none;color:inherit">د سولې مفکوره</a></h3>
+  <p class="badge">2025-08-13</p>
+  <p>په اسلامي لید کې سوله د عدالت لپاره لومړنی شرط دی — سوله مخکې، بیا اصلاح.</p>
+  <a class="btn" href="articles/ideology-of-peace.html">لوستل</a>
+</div><div class="card">
+  <img src="https://source.unsplash.com/1600x900/?birds,ocean,calm" alt="" class="article-cover" loading="lazy">
+  <h3 style="margin-top:.25rem"><a href="articles/peace-and-dialogue.html" style="text-decoration:none;color:inherit">سوله او مکالمه</a></h3>
+  <p class="badge">2025-08-14</p>
+  <p>مکالمه د شخړې بدیل دی: اورېدنه، پوښتنه او درناوی د تفاهم دروازې پرانیزي.</p>
+  <a class="btn" href="articles/peace-and-dialogue.html">لوستل</a>
+</div>
+    </div>
+  </section>
+</main>
+<script src="posts.js"></script>
+<script>
+  const base = (window.__BASE_POSTS__||[]);
+  const saved = JSON.parse(localStorage.getItem('mwk_posts')||'[]');
+  const posts = [...saved, ...base];
+  const weeklies = posts.filter(p => p.category==='Veckans läsning');
+  function byDate(a,b){return (b.date||'').localeCompare(a.date||'');}
+  let pick = (weeklies.sort(byDate)[0]) || posts[0] || null;
+  document.getElementById('weekly-title').textContent = pick ? pick.title : '—';
+  document.getElementById('weekly-meta').textContent = pick ? ((pick.date||'') + (pick.tags? ' · '+pick.tags : '')) : '';
+  document.getElementById('weekly-excerpt').textContent = pick ? (pick.excerpt||'') : '';
+  document.getElementById('weekly-link').href = pick ? ('articles/'+(pick.slug||'')+'.html') : '#';
+
+  const seen = new Set((base||[]).map(p=>p.slug));
+  const container = document.getElementById('home-cards');
+  (saved||[]).forEach(p => { if(seen.has(p.slug)) return;
+    const d=document.createElement('div'); d.className='card';
+    d.innerHTML = `<img class="article-cover" src="${p.image||''}" alt=""><h3 style="margin-top:.25rem"><a href="articles/${p.slug}.html" style="text-decoration:none;color:inherit">${p.title}</a></h3><p class="badge">${p.date||''}</p><p>${p.excerpt||''}</p><a class="btn" href="articles/${p.slug}.html">لوستل</a>`;
+    container.prepend(d);
+  });
+</script>
+<footer>© 2025 – لیکنې په عامه ملکیت کې. انځورونه له Unsplash/Pexels څخه د دوی اجازې لاندې بارېږي.</footer></body></html>

@@ -1,0 +1,216 @@
+:root{
+  --bg:#F0F0F0;
+  --ink:#1f2937;
+  --muted:#6b7280;
+  --card:#F0F0F0;
+  --border:#e5e7eb;
+  --accent:#F0F0F0;
+  --accent2:#10b981;
+  --shadow:0 12px 28px rgba(0,0,0,.06);
+}
+
+/* Grund */
+*{box-sizing:border-box}
+html{font-size:18px}
+body{
+  margin:0;
+  color:var(--ink);
+  background:radial-gradient(1200px 800px at 80% -20%,#F0F0F0 0%,var(--bg) 40%) fixed;
+  font-family:"Noto Naskh Arabic","Scheherazade New",serif;
+  line-height:1.9;
+  direction:rtl;
+}
+.container{max-width:1040px;margin:0 auto;padding:1.25rem}
+
+/* Banner */
+.banner {
+  position: relative; /* loggan förankras här */
+  width: 100%;
+  height: 220px; /* fast höjd */
+  background: url('images/icons/mosque.png') center center / cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  overflow: hidden; /* bannern växer inte när loggan ändras */
+}
+
+.banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1040px;
+  background: rgba(250,250,250,.6);
+  border-radius: 16px;
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.7);
+  z-index: 1; /* under loggan */
+}
+
+.khan-logo {
+  max-height: 130px;
+  border-radius: 12px;
+  height: auto;
+  margin-right: 1rem;
+}
+
+/* Menyn i bannern */
+.banner-nav {
+  display:flex;
+  gap:0.6rem;
+  flex-wrap:nowrap;       /* ❌ ingen radbrytning */
+  white-space:nowrap;     /* ❌ allt på en rad */
+  overflow-x:auto;        /* ➡️ scrolla om det blir för många länkar */
+  -webkit-overflow-scrolling: touch;
+}
+
+.banner-nav a {
+  text-decoration:none;
+  color:#333;
+  font-weight:bold;
+  padding:.35rem .7rem;
+  border-radius:6px;
+  border:1px solid var(--border);
+  background:var(--card);
+  box-shadow:var(--shadow);
+  display:inline-block;
+  white-space:nowrap;
+}
+
+.banner-nav a:hover {
+  background: rgba(250,250,250,1);
+}
+
+/* Circle-loggan (fast i bannern top-right) */
+.circle-logo {
+  position: absolute;
+  top: var(--logo-top, 8px);
+  right: var(--logo-right, 8px);
+  width: var(--logo-size, 180px);
+  height: auto;
+  z-index: 2;
+  pointer-events: none; /* stör ej klick */
+  display: block;
+}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:180px 1fr;gap:1rem;align-items:center;padding:1.25rem}
+.hero img{width:100%;height:auto;border-radius:1rem;border:1px solid var(--border);box-shadow:var(--shadow);object-fit:cover}
+.hero h1{margin:.25rem 0 0;font-size:1.75rem}
+.hero p{margin:.25rem 0 0;color:var(--muted)}
+
+/* Cards & Grid */
+.grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.card{background:var(--card);border:1px solid var(--border);border-radius:1rem;padding:1rem;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:.6rem;min-height:220px}
+.article-cover{width:100%;aspect-ratio:16/9;display:block;object-fit:cover;border-radius:.8rem;border:1px solid var(--border);box-shadow:var(--shadow);margin:0 0 .6rem 0}
+.card img{max-width:100%;height:auto;display:block;object-fit:cover}
+.card h3{margin:0;font-size:1.05rem}
+.card p{margin:0;color:var(--muted)}
+
+/* Relaterade kort */
+.related-section{margin-top:2.25rem;text-align:center}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;align-items:start}
+.related-card{background:rgba(250,250,250,.6);padding:.75rem;border-radius:8px;box-shadow:0 2px 4px rgba(0,0,0,0.12);transition:transform .2s;display:flex;flex-direction:column;gap:.5rem;align-items:stretch}
+.related-card:hover{transform:translateY(-4px)}
+.related-card img{width:100%;height:140px;object-fit:cover;border-radius:6px}
+
+/* Thematic / featured */
+.featured-thematic{display:flex;flex-direction:row-reverse;align-items:stretch;background:#F0F0F0;border-radius:.5rem;padding:1rem;margin-bottom:1.5rem;box-shadow:var(--shadow);gap:1rem}
+.featured-thematic img{width:60%;object-fit:cover;border-radius:.8rem}
+.featured-thematic .info{flex:1;display:flex;flex-direction:column;justify-content:center}
+.featured-thematic .date{color:var(--muted);font-size:.9rem;margin:.25rem 0}
+
+/* Thematic hero */
+.thematic-hero{display:grid;grid-template-columns:1fr 1.2fr;gap:1rem;background:#F0F0F0;border:1px solid var(--border);border-radius:1rem;padding:1rem;box-shadow:var(--shadow)}
+.thematic-hero .img-wrap img{width:100%;height:100%;object-fit:cover;border-radius:1rem;border:1px solid var(--border)}
+.thematic-hero h2{margin:.25rem 0 .35rem;font-size:1.6rem}
+
+/* Article page layout */
+.article-container{background:rgba(250,250,250,0.6);border-radius:12px;padding:2rem;margin-top:0.5rem}
+.article-layout{display:block}
+.article-image{float:left;margin:0 1rem 1rem 0;max-width:40%}
+.article-image img{width:100%;height:auto;border-radius:10px;object-fit:cover}
+.article-text{font-size:1.2rem;line-height:1.8;color:var(--ink)}
+
+/* Footer */
+footer{margin-top:2rem;padding:2rem 1rem;text-align:center;color:var(--muted)}
+
+/* Responsiv */
+@media(max-width:820px){
+  .featured-thematic{flex-direction:column}
+  .featured-thematic img{width:100%}
+  .thematic-hero{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .hero{grid-template-columns:1fr}
+  .card{min-height:auto}
+  .article-image{float:none;max-width:100%;margin:0 0 1rem 0}
+  .related-grid{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+  .related-card img{height:120px}
+  html{font-size:16px}
+}
+
+/* Override: hero-bilden ska vara lika bred som containern, höjd auto */
+/* Hero-bilden ska vara lika bred som containern */
+.article-hero {
+  width: 100%;
+  min-height: 300px;           /* fast minsta höjd */
+  background-size: cover;      /* 🔹 fyller hela bredden */
+  background-repeat: no-repeat;
+  background-position: center center;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  flex-direction: column;
+  text-align: center;
+  padding: 2rem;
+
+}
+/* 🔹 Lägg mörk overlay på Unsplash-bilden */
+.article-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4);  /* halvtransparent svart */
+  border-radius: 12px;
+  z-index: 0;
+}
+
+/* 🔹 Se till att texten ligger ovanpå */
+.article-hero {
+  position: relative;  /* behövs för overlay */
+}
+
+.article-hero h1,
+.article-hero p {
+  position: relative;
+  z-index: 1;          /* så att texten visas ovanpå overlay */
+}
+
+/* 🔹 Globala länkar utan blå färg och underline */
+a {
+  color: var(--ink);         /* samma färg som vanlig text */
+  text-decoration: none;     /* ingen underline */
+}
+
+/* 🔹 Valfritt: hover ska fortfarande markera men diskret */
+a:hover {
+  color: var(--ink);
+  text-decoration: underline; /* eller ta bort helt om du inte vill ha någon effekt */
+}
+
+.faq-item a {
+  text-decoration: none;
+  font-size: 1.2rem;
+  color: var(--ink);   /* 👈 använder huvudfärgen för text */
+  font-weight: 600;
+}
+.faq-item a:hover {
+  color: var(--accent); /* 👈 accentfärg vid hover */
+}

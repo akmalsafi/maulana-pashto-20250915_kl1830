@@ -1,0 +1,95 @@
+<?php
+
+$db = new SQLite3(__DIR__ . '/data.db');
+
+// NY: rendera artikelkort per kategori, sorterat på senaste insättning
+function renderArticles($db, $category, $limit = 3) {
+    $limit = (int)$limit;
+    $sql = "
+        SELECT id, title, excerpt, image, date
+        FROM articles
+        WHERE TRIM(category) = :category
+        ORDER BY id DESC
+        LIMIT $limit
+    ";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':category', $category, SQLITE3_TEXT);
+    $res = $stmt->execute();
+
+    echo '<div class="grid">';
+    while ($row = $res->fetchArray(SQLITE3_ASSOC)) {
+        $img = trim($row['image'] ?? '') !== '' ? $row['image'] : 'assets/fallback.jpg';
+        echo '<div class="card">';
+        echo '<img src="'.htmlspecialchars($img).'" alt="" class="article-cover" loading="lazy">';
+        echo '<h3 style="margin-top:.25rem"><a href="article.php?id='.$row['id'].'" style="text-decoration:none;color:inherit">'.htmlspecialchars($row['title']).'</a></h3>';
+        echo '<p class="badge">'.htmlspecialchars($row['date']).'</p>';
+        echo '<p>'.htmlspecialchars($row['excerpt']).'</p>';
+        echo '<a class="btn" href="article.php?id='.$row['id'].'">لوستل</a>';
+        echo '</div>';
+    }
+    echo '</div>';
+}
+?>
+
+
+<!doctype html>
+<html lang="ps" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>د سولې او روحانیت کتابتون – د مولانا وحیدالدین خان لیکنې</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brand" href="index.php"><img src="images//icons/khan1.jpg" alt="لوګو" width="250" height="120"><span class="title">
+
+ <h1> سوله، روحانیت او دین</h1>
+    <p> د مولانا وحیدالدین خان پښتو لیکنې</p>
+
+</span></a>
+  <div class="menu">
+    <a href="index.php" class="active">کور</a>
+    <a href="weekly.php">د اوونۍ لوستل</a>
+    <a href="daily.php">د نن ورځې لوستل</a>
+    <a href="articles.php">مقالې</a>
+    <a href="admin.php">اداره</a>
+  </div>
+</nav>
+
+<header class="hero container">
+  <img src="assets/hero.jpg" alt="" class="hero-bg">
+  <div>
+    <span class="badge">ځانګړې برخه</span>
+    <h1>د مولانا وحیدالدین خان پښتو لیکنې</h1>
+    <p>سوله، روحانیت او دین.</p>
+  </div>
+</header>
+
+
+<main class="container">
+ <section>
+  <h2 style="margin:0 0 .5rem">📖 د نن ورځې لوستل</h2>
+  <?php renderArticles($db, 'Dagens läsning', 3); ?>
+</section>
+
+<section>
+  <h2 style="margin:0 0 .5rem">📚 د اوونۍ لوستل</h2>
+  <?php renderArticles($db, 'Veckans läsning', 3); ?>
+</section>
+
+<section>
+  <h2 style="margin:0 0 .5rem">✨ د نن ورځې الهام</h2>
+  <?php renderArticles($db, 'Dagens inspiration', 3); ?>
+</section>
+
+</main>
+
+
+
+
+
+<footer>© 2025 – لیکنې په عامه ملکیت کې.</footer>
+</body>
+</html>
